@@ -2,8 +2,6 @@
 
 **CodeShelf AI** is an advanced code snippet management tool designed to streamline development workflows. Powered by AI, CodeShelf makes it easy to store, search, and retrieve code snippets, helping developers focus on building great software.
 
----
-
 ## 🚀 Features
 
 - **Snippet Storage**: Save code snippets in an organized and accessible manner.
@@ -23,10 +21,9 @@
 - **Frontend**: React, Next.js
 - **Backend**: Node.js, Express
 - **Database**: MongoDB
-- **AI**: OpenAI GPT Integration
+- **AI**: Anthropic Claude-sonnet-3.5
 - **Styling**: Tailwind CSS
 
----
 
 ## 💡 Getting Started
 
