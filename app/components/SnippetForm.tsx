@@ -1,6 +1,4 @@
 import { useState } from "react";
-import SnippetInput from "./SnippetInput";
-import SnippetActions from "./SnippetActions";
 import { materialDark } from "@uiw/codemirror-theme-material";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import { materialLight } from "@uiw/codemirror-theme-material";

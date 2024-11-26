@@ -2,8 +2,7 @@
 
 import { useEffect } from "react";
 import { useTheme } from "next-themes";
-import SnippetInput from "./components/SnippetInput";
-import SnippetActions from "./components/SnippetActions";
+
 import { Card } from "@/components/ui/card";
 import SnippetForm from "./components/SnippetForm";
 import { SnippetCard } from "./components/SnippetCard";
