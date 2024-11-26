@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CodeShelf AI
 
-## Getting Started
+**CodeShelf AI** is an advanced code snippet management tool designed to streamline development workflows. Powered by AI, CodeShelf makes it easy to store, search, and retrieve code snippets, helping developers focus on building great software.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Snippet Storage**: Save code snippets in an organized and accessible manner.
+- **AI-Powered Search**: Quickly find snippets using natural language or keywords.
+- **Context-Aware Suggestions**: Get relevant code suggestions based on your queries.
+- **Multi-Language Support**: Manage snippets in multiple programming languages.
+- **Pinned Snippets**: Pin your most frequently used snippets for quick access.
+- **Edit Snippets**: Edit your snippets directly in the app.
+- **Keyboard Shortcuts**: Quick access with ⌘/Ctrl + K for search.
+- **Code Analysis**: AI-powered code analysis for better organization.
+- **Syntax Highlighting**: Beautiful code display with syntax highlighting.
+- **Dark/Light Themes**: Choose your preferred theme for comfortable viewing.
+- **Shelf Organization**: Organize snippets into custom shelves/categories.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technologies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend**: React, Next.js
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **AI**: OpenAI GPT Integration
+- **Styling**: Tailwind CSS
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 💡 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Make sure you have the following installed:
 
-## Deploy on Vercel
+- Node.js v16+
+- npm or yarn
+- MongoDB
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/CodeShelf-AI.git
+   cd CodeShelf-AI
+   ```
