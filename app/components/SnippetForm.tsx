@@ -22,6 +22,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
   const [code, setCode] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [result, setResult] = useState<CodeAnalysisResponse | null>(null);
+  // eslint-disable-next-line
   const [error, setError] = useState<string>("");
   const { language, setLanguage } = useLanguageStore();
 
