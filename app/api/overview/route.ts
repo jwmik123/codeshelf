@@ -28,13 +28,15 @@ export async function POST(request: Request) {
           role: "user",
           content: `Analyze this code snippet and provide:
 1. A concise, descriptive title (max 6 words)
-2. The programming language used
+2. The programming language used in lowercase
 3. A brief description of what the code does (max 2 sentences)
+4. Suggest a category for the code snippet (e.g. "Algorithms", "Data Structures", "Web Development", "Machine Learning", "Security", "Performance", "Code Organization", "Error Handling", "Security Considerations")
 
 Format your response as exactly 3 lines:
 Line 1: Title
 Line 2: Language
 Line 3: Description
+Line 4: Category
 
 Code to analyze:
 \`\`\`
@@ -62,6 +64,7 @@ ${code}
       title: lines[0].trim(),
       language: lines[1].trim(),
       description: lines[2].trim(),
+      category: lines[3].trim(),
     };
 
     return NextResponse.json(result);
@@ -79,6 +82,7 @@ export type CodeAnalysisResponse = {
   title: string;
   language: string;
   description: string;
+  category: string;
 };
 
 export type CodeAnalysisError = {

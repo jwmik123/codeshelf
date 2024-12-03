@@ -6,6 +6,6 @@ interface LanguageState {
 }
 
 export const useLanguageStore = create<LanguageState>((set) => ({
-  language: "javascript",
+  language: "python",
   setLanguage: (language: string) => set({ language }),
 }));

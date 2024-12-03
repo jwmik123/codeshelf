@@ -54,7 +54,6 @@ export default function Dashboard() {
           </div>
           {/* Create new snippet form */}
           <Card className="flex flex-col gap-4 p-4">
-            <h3 className="text-xl font-semibold">Add a new snippet</h3>
             <SnippetForm theme={(theme as "light" | "dark") || "dark"} />
           </Card>
 

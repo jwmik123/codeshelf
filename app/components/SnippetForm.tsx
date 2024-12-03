@@ -11,27 +11,25 @@ import {
 } from "@/components/ui/select";
 import { useLanguageStore } from "../stores/languageStore";
 import { Button } from "@/components/ui/button";
-import { Zap } from "lucide-react";
+import { Save, Zap } from "lucide-react";
 import CodeMirror, { Extension } from "@uiw/react-codemirror";
-import {
-  CodeAnalysisResponse,
-  CodeAnalysisError,
-} from "../api/analyze-code/route";
+import { CodeAnalysisResponse, CodeAnalysisError } from "../api/overview/route";
 
 function SnippetForm({ theme }: { theme: "dark" | "light" }) {
   const [code, setCode] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [result, setResult] = useState<CodeAnalysisResponse | null>(null);
+  const [category, setCategory] = useState<string>();
   // eslint-disable-next-line
   const [error, setError] = useState<string>("");
   const { language, setLanguage } = useLanguageStore();
-
+  const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
   const analyzeCode = async () => {
     try {
       setIsAnalyzing(true);
       setError("");
 
-      const response = await fetch("/api/analyze-code", {
+      const response = await fetch("/api/overview", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,10 +61,38 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
 
   return (
     <div>
+      {result ? (
+        <>
+          {isEditingTitle ? (
+            <input
+              type="text"
+              className="text-xl font-bold mb-2"
+              value={result.title}
+              onChange={(e) => setResult({ ...result, title: e.target.value })}
+              onBlur={() => setIsEditingTitle(false)}
+              autoFocus
+            />
+          ) : (
+            <h3
+              className="text-xl font-bold mb-2"
+              onClick={() => setIsEditingTitle(true)}
+            >
+              <span className="text-muted-foreground">New Title:</span>{" "}
+              {result.title}
+            </h3>
+          )}
+          <p className="text-lg mb-2">
+            <span className="text-muted-foreground">Description:</span>{" "}
+            {result.description}
+          </p>
+        </>
+      ) : (
+        <h3 className="text-xl font-semibold mb-4">Add a new snippet</h3>
+      )}
+
       <CodeMirror
         height="300px"
-        value={`// Please enter your code here...`}
-        onChange={(value) => setCode(value)}
+        value={"// Please enter your code here..."}
         theme={theme === "dark" ? materialDark : materialLight}
         basicSetup={{
           foldGutter: false,
@@ -78,20 +104,10 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
         style={{ whiteSpace: "pre-wrap", wordBreak: "break-all" }}
       />
       <div className="flex gap-4 items-center mt-4">
-        {result && (
-          <div className="mt-4 space-y-2">
-            <p>
-              <strong>Title:</strong> {result.title}
-            </p>
-            <p>
-              <strong>Language:</strong> {result.language}
-            </p>
-            <p>
-              <strong>Description:</strong> {result.description}
-            </p>
-          </div>
-        )}
-        <Select value={language} onValueChange={setLanguage}>
+        <Select
+          value={result ? result.language : undefined}
+          onValueChange={setLanguage}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Select Language" />
           </SelectTrigger>
@@ -104,7 +120,10 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
           </SelectContent>
         </Select>
 
-        <Select>
+        <Select
+          value={result ? result.category : category}
+          onValueChange={setCategory}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Select Shelf" />
           </SelectTrigger>
@@ -119,6 +138,10 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
         <Button onClick={analyzeCode} disabled={!code || isAnalyzing}>
           <Zap className="w-4 h-4 " />
           {isAnalyzing ? "Analyzing..." : "Analyze Code"}
+        </Button>
+        <Button disabled={!code || isAnalyzing}>
+          <Save className="w-4 h-4 " />
+          Save Snippet
         </Button>
       </div>
     </div>

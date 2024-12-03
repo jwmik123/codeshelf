@@ -19,7 +19,6 @@ import { useTheme } from "next-themes";
 import { useEffect } from "react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -40,7 +39,7 @@ const data = {
   },
   navMain: [
     {
-      title: "Code Snippets",
+      title: "My Snippets",
       url: "#",
       icon: Scissors,
       isActive: true,
@@ -58,23 +57,9 @@ const data = {
       ],
     },
     {
-      title: "Models",
+      title: "Snippet Library",
       url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      icon: LibraryBig,
     },
     {
       title: "Documentation",
@@ -181,7 +166,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
