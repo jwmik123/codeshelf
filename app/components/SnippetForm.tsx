@@ -83,7 +83,8 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
     }
   };
 
-  const handleSubmit = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleSubmit = async (formData: FormData) => {
     try {
       // Get the current title and description from result or use defaults
       const title = result?.title || "Untitled Snippet";
