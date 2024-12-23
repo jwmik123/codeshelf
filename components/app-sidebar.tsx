@@ -57,56 +57,99 @@ const data = {
       ],
     },
     {
-      title: "Snippet Library",
+      title: "Language",
+      isActive: true,
       url: "#",
       icon: LibraryBig,
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
       items: [
         {
-          title: "Introduction",
+          title: "JavaScript",
+
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "Python",
+
           url: "#",
         },
         {
-          title: "Tutorials",
+          title: "TypeScript",
+
           url: "#",
         },
         {
-          title: "Changelog",
+          title: "Go",
+
+          url: "#",
+        },
+        {
+          title: "Rust",
+
+          url: "#",
+        },
+        {
+          title: "Java",
+
+          url: "#",
+        },
+        {
+          title: "C#",
+
+          url: "#",
+        },
+        {
+          title: "C++",
+
           url: "#",
         },
       ],
     },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Documentation",
+    //   url: "#",
+    //   icon: BookOpen,
+    //   items: [
+    //     {
+    //       title: "Introduction",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Get Started",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Tutorials",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Changelog",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: Settings2,
+    //   items: [
+    //     {
+    //       title: "General",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Team",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Billing",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Limits",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
   navSecondary: [
     {

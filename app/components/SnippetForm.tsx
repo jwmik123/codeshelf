@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { materialDark } from "@uiw/codemirror-theme-material";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import { materialLight } from "@uiw/codemirror-theme-material";
@@ -12,18 +14,38 @@ import {
 import { useLanguageStore } from "../stores/languageStore";
 import { Button } from "@/components/ui/button";
 import { Save, Zap } from "lucide-react";
-import CodeMirror, { Extension } from "@uiw/react-codemirror";
+import { Extension } from "@uiw/react-codemirror";
 import { CodeAnalysisResponse, CodeAnalysisError } from "../api/overview/route";
+import { toast } from "react-toastify";
+import { addSnippet } from "../snippets/actions";
+import { Snippet } from "@/types/custom";
+import dynamic from "next/dynamic";
+
+// Dynamically import CodeMirror with no server-side rendering
+const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
+  ssr: false,
+});
 
 function SnippetForm({ theme }: { theme: "dark" | "light" }) {
   const [code, setCode] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [result, setResult] = useState<CodeAnalysisResponse | null>(null);
-  const [category, setCategory] = useState<string>();
-  // eslint-disable-next-line
+  const [shelf, setShelf] = useState<string>("default");
   const [error, setError] = useState<string>("");
   const { language, setLanguage } = useLanguageStore();
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (result) {
+      if (result.language && result.language in langs) {
+        setLanguage(result.language);
+      }
+      if (result.category) {
+        setShelf(result.category);
+      }
+    }
+  }, [result, setLanguage]);
   const analyzeCode = async () => {
     try {
       setIsAnalyzing(true);
@@ -49,24 +71,74 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
 
       setResult(data);
     } catch (error) {
-      setError(
+      const errorMessage =
         error instanceof Error
           ? error.message
-          : "Failed to analyze code. Please try again."
-      );
+          : "Failed to analyze code. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsAnalyzing(false);
     }
   };
 
+  const handleSubmit = async (formData: FormData) => {
+    try {
+      // Get the current title and description from result or use defaults
+      const title = result?.title || "Untitled Snippet";
+      const description = result?.description || "";
+
+      const newSnippet: Snippet = {
+        title,
+        description,
+        code: code || "",
+        language: language || "javascript",
+        shelf: shelf || "default",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        user_id: null,
+        id: crypto.randomUUID(),
+      };
+
+      if (!newSnippet.code) {
+        toast.error("Please enter some code");
+        return;
+      }
+
+      await addSnippet(newSnippet);
+      toast.success("Snippet saved successfully!");
+      formRef.current?.reset();
+      setCode("");
+      setResult(null);
+    } catch (error) {
+      toast.error("Failed to save snippet");
+      console.error("Save error:", error);
+    }
+  };
+
   return (
-    <div>
+    <form ref={formRef} action={handleSubmit}>
+      {/* Hidden form fields to store the data */}
+      <input
+        type="hidden"
+        name="title"
+        value={result?.title || "Untitled Snippet"}
+      />
+      <input
+        type="hidden"
+        name="description"
+        value={result?.description || ""}
+      />
+      <input type="hidden" name="code" value={code} />
+      <input type="hidden" name="language" value={language} />
+      <input type="hidden" name="shelf" value={shelf} />
+
       {result ? (
         <>
           {isEditingTitle ? (
             <input
               type="text"
-              className="text-xl font-bold mb-2"
+              className="text-xl font-bold mb-2 p-2 border rounded"
               value={result.title}
               onChange={(e) => setResult({ ...result, title: e.target.value })}
               onBlur={() => setIsEditingTitle(false)}
@@ -74,7 +146,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
             />
           ) : (
             <h3
-              className="text-xl font-bold mb-2"
+              className="text-xl font-bold mb-2 cursor-pointer"
               onClick={() => setIsEditingTitle(true)}
             >
               <span className="text-muted-foreground">New Title:</span>{" "}
@@ -92,7 +164,8 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
 
       <CodeMirror
         height="300px"
-        value={"// Please enter your code here..."}
+        value={code || "// Please enter your code here..."}
+        onChange={(value) => setCode(value)}
         theme={theme === "dark" ? materialDark : materialLight}
         basicSetup={{
           foldGutter: false,
@@ -103,11 +176,9 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
         extensions={[langs[language as keyof typeof langs]()] as Extension[]}
         style={{ whiteSpace: "pre-wrap", wordBreak: "break-all" }}
       />
+
       <div className="flex gap-4 items-center mt-4">
-        <Select
-          value={result ? result.language : undefined}
-          onValueChange={setLanguage}
-        >
+        <Select value={language} onValueChange={setLanguage}>
           <SelectTrigger>
             <SelectValue placeholder="Select Language" />
           </SelectTrigger>
@@ -120,31 +191,33 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
           </SelectContent>
         </Select>
 
-        <Select
-          value={result ? result.category : category}
-          onValueChange={setCategory}
-        >
+        <Select value={shelf} onValueChange={setShelf}>
           <SelectTrigger>
             <SelectValue placeholder="Select Shelf" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="algorithms">Algorithms</SelectItem>
-            <SelectItem value="utils">Utilities</SelectItem>
-            <SelectItem value="configs">Configurations</SelectItem>
-            <SelectItem value="snippets">Code Snippets</SelectItem>
+            <SelectItem value="default">Default Shelf</SelectItem>
+            {result?.category && result.category !== "default" && (
+              <SelectItem value={result.category}>{result.category}</SelectItem>
+            )}
           </SelectContent>
         </Select>
 
-        <Button onClick={analyzeCode} disabled={!code || isAnalyzing}>
-          <Zap className="w-4 h-4 " />
+        <Button
+          type="button"
+          onClick={analyzeCode}
+          disabled={!code || isAnalyzing}
+        >
+          <Zap className="w-4 h-4 mr-2" />
           {isAnalyzing ? "Analyzing..." : "Analyze Code"}
         </Button>
-        <Button disabled={!code || isAnalyzing}>
-          <Save className="w-4 h-4 " />
+
+        <Button type="submit" disabled={!code}>
+          <Save className="w-4 h-4 mr-2" />
           Save Snippet
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
 

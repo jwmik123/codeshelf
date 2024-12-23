@@ -104,6 +104,10 @@ body {
     margin: 0 0.5rem;
   }
 
+  .cm-content {
+    font-size: 12px;
+  }
+
   .cm-gutters {
     border: none;
     padding: 0 0.5rem;
