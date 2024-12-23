@@ -7,8 +7,7 @@ export async function POST(req: NextRequest) {
 
   const cookieStore = cookies();
 
-  const email = String();
-  const password = String();
+  const { email, password } = await req.json();
 
   const supabase = createRouteHandlerClient({
     cookies: () => cookieStore,
@@ -18,6 +17,13 @@ export async function POST(req: NextRequest) {
     email,
     password,
   });
+
+  if (response.error) {
+    return NextResponse.json(
+      { error: response.error.message },
+      { status: 400 }
+    );
+  }
 
   return NextResponse.redirect(url.origin, {
     status: 301,

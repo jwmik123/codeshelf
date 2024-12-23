@@ -46,7 +46,7 @@ export function NavUser({
   const router = useRouter();
 
   const handleLogout = async () => {
-    let { error } = await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Logout error:", error);
     }

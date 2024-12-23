@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { Separator } from "@/components/ui/separator";
-import Search from "@/app/components/Search";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
 import { Nunito } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 

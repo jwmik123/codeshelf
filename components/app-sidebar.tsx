@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import {
-  BookOpen,
-  Bot,
   EyeIcon,
   Frame,
   LibraryBig,
@@ -13,7 +11,6 @@ import {
   PlusCircle,
   Scissors,
   Send,
-  Settings2,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect } from "react";
