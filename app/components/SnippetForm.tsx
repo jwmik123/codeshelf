@@ -31,6 +31,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [result, setResult] = useState<CodeAnalysisResponse | null>(null);
   const [shelf, setShelf] = useState<string>("default");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<string>("");
   const { language, setLanguage } = useLanguageStore();
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
