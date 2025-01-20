@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -12,16 +13,26 @@ import { Button } from "@/components/ui/button";
 import CodeMirror from "@uiw/react-codemirror";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import { materialDark } from "@uiw/codemirror-theme-material";
-import { CopyCheck, CopyIcon } from "lucide-react";
+import { CopyCheck, CopyIcon, HeartIcon } from "lucide-react";
 import { Snippet } from "@/types/custom";
-import { useState } from "react";
+import { likeSnippet } from "../snippets/actions";
 
-export function SnippetCard({ snippet }: { snippet: Snippet }) {
-  const [isCopied, setIsCopied] = useState(false);
+interface SnippetCardProps {
+  snippet: Snippet;
+}
 
-  const handleCopy = async () => {
+export function SnippetCard({ snippet }: SnippetCardProps) {
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [likes, setLikes] = useState<number>(snippet.likes || 0);
+
+  const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(snippet.code);
     setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const handleLike = () => {
+    setLikes((prev) => prev + 1);
   };
 
   return (
@@ -43,9 +54,7 @@ export function SnippetCard({ snippet }: { snippet: Snippet }) {
           </Button>
         </div>
         <div className="relative">
-          <pre
-            className={`bg-muted rounded-md overflow-scroll transition-all duration-200 max-h-64`}
-          >
+          <pre className="bg-muted rounded-md overflow-scroll transition-all duration-200 max-h-64">
             <CodeMirror
               value={snippet.code}
               theme={materialDark}
@@ -62,7 +71,14 @@ export function SnippetCard({ snippet }: { snippet: Snippet }) {
           </pre>
         </div>
       </CardContent>
-      <CardFooter></CardFooter>
+      <CardFooter className="flex items-center gap-2">
+        <Button onClick={handleLike} variant="ghost" size="sm">
+          <HeartIcon className="w-4 h-4" />
+        </Button>
+        <div className="text-sm text-muted-foreground">
+          {likes} {likes === 1 ? "like" : "likes"}
+        </div>
+      </CardFooter>
     </Card>
   );
 }

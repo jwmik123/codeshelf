@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SnippetList } from "../components/SnippetList";
-import { getSnippets } from "./actions";
+import { getUserSnippets } from "../snippets/actions";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -10,11 +10,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { FilterControls } from "@/app/components/FilterControls";
 
-export default async function Snippets({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function UserSnippets() {
   const supabase = await createClient();
 
   const {
@@ -25,12 +21,7 @@ export default async function Snippets({
     redirect("/login");
   }
 
-  const snippets = await getSnippets({
-    language: searchParams.language as string,
-    shelf: searchParams.shelf as string,
-    popularity: searchParams.popularity as string,
-    sort: searchParams.sort as string,
-  });
+  const snippets = await getUserSnippets(user.id);
 
   return (
     <SidebarProvider>
@@ -41,13 +32,9 @@ export default async function Snippets({
             <div className="flex items-center">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4" />
-              <h1 className="text-4xl font-bold mb-2">Snippets</h1>
+              <h1 className="text-4xl font-bold mb-2">My Snippets</h1>
             </div>
-            <p className="text-lg text-muted-foreground">
-              Browse and filter through our collection of code snippets
-            </p>
           </header>
-          <FilterControls searchParams={searchParams} />
           <Separator className="w-full" />
           <SnippetList snippets={snippets} />
         </section>

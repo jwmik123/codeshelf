@@ -21,7 +21,6 @@ import { addSnippet } from "../snippets/actions";
 import { Snippet } from "@/types/custom";
 import dynamic from "next/dynamic";
 
-// Dynamically import CodeMirror with no server-side rendering
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
 });
@@ -86,7 +85,6 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSubmit = async (formData: FormData) => {
     try {
-      // Get the current title and description from result or use defaults
       const title = result?.title || "Untitled Snippet";
       const description = result?.description || "";
 

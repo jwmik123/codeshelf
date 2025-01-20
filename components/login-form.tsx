@@ -13,9 +13,11 @@ import { Label } from "@/components/ui/label";
 import { GithubIcon } from "lucide-react";
 
 export function LoginForm({
+  message,
   signup,
   login,
 }: {
+  message: string;
   signup: (formData: FormData) => void;
   login: (formData: FormData) => void;
 }) {
@@ -52,6 +54,7 @@ export function LoginForm({
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
+            {message && <p className="text-red-500">{message}</p>}
             <Button type="submit" className="w-full" formAction={login}>
               Login
             </Button>

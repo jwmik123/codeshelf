@@ -32,7 +32,7 @@ export async function POST(request: Request) {
           3. A brief description of what the code does (max 2 sentences)
           4. Suggest a category for the code snippet (e.g. "Algorithms", "Data Structures", 
           "Web Development", "Machine Learning", "Security", "Performance", "Code Organization", 
-          "Error Handling", "Security Considerations")
+          "Error Handling", "Security Considerations", "AI")
 
           Format your response as exactly 4 lines:
           Line 1: Title

@@ -6,6 +6,7 @@ import {
   Frame,
   LibraryBig,
   LifeBuoy,
+  Languages,
   Map,
   PieChart,
   PlusCircle,
@@ -36,20 +37,26 @@ const data = {
   },
   navMain: [
     {
+      title: "AllSnippets",
+      url: "/snippets",
+      icon: Scissors,
+      isActive: true,
+    },
+    {
       title: "My Snippets",
-      url: "#",
+      url: "/user-snippets",
       icon: Scissors,
       isActive: true,
       items: [
         {
           title: "Add Snippet",
           icon: PlusCircle,
-          url: "#",
+          url: "/",
         },
         {
-          title: "View Snippets",
+          title: "View My Snippets",
           icon: EyeIcon,
-          url: "#",
+          url: "/user-snippets",
         },
       ],
     },
@@ -57,73 +64,72 @@ const data = {
       title: "Language",
       isActive: true,
       url: "#",
-      icon: LibraryBig,
+      icon: Languages,
       items: [
         {
           title: "JavaScript",
 
-          url: "#",
+          url: "/snippets?language=javascript",
         },
         {
           title: "Python",
 
-          url: "#",
-        },
-        {
-          title: "TypeScript",
-
-          url: "#",
+          url: "/snippets?language=python",
         },
         {
           title: "Go",
 
-          url: "#",
+          url: "/snippets?language=go",
         },
         {
           title: "Rust",
 
-          url: "#",
+          url: "/snippets?language=rust",
         },
         {
           title: "Java",
 
-          url: "#",
+          url: "/snippets?language=java",
         },
         {
           title: "C#",
 
-          url: "#",
+          url: "/snippets?language=csharp",
         },
         {
           title: "C++",
 
+          url: "/snippets?language=cpp",
+        },
+      ],
+    },
+    {
+      title: "Shelf",
+      url: "#",
+      icon: LibraryBig,
+      items: [
+        {
+          title: "Algorithms",
+          url: "#",
+        },
+        {
+          title: "Data Structures",
+          url: "#",
+        },
+        {
+          title: "Web Development",
+          url: "#",
+        },
+        {
+          title: "Machine Learning",
+          url: "#",
+        },
+        {
+          title: "AI",
           url: "#",
         },
       ],
     },
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
     // {
     //   title: "Settings",
     //   url: "#",
@@ -192,7 +198,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <a href="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <LibraryBig className="size-4" />
                 </div>
