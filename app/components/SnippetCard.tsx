@@ -15,7 +15,6 @@ import { langs } from "@uiw/codemirror-extensions-langs";
 import { materialDark } from "@uiw/codemirror-theme-material";
 import { CopyCheck, CopyIcon, HeartIcon } from "lucide-react";
 import { Snippet } from "@/types/custom";
-import { likeSnippet } from "../snippets/actions";
 
 interface SnippetCardProps {
   snippet: Snippet;

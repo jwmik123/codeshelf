@@ -8,7 +8,6 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 import { AppSidebar } from "@/components/app-sidebar";
-import { FilterControls } from "@/app/components/FilterControls";
 
 export default async function UserSnippets() {
   const supabase = await createClient();
