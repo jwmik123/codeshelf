@@ -14,8 +14,8 @@ import { GithubIcon } from "lucide-react";
 
 export function LoginForm({
   message,
-  signup,
   login,
+  signup,
 }: {
   message: string;
   signup: (formData: FormData) => void;
@@ -57,6 +57,9 @@ export function LoginForm({
             {message && <p className="text-red-500">{message}</p>}
             <Button type="submit" className="w-full" formAction={login}>
               Login
+            </Button>
+            <Button type="submit" className="w-full" formAction={signup}>
+              Signup
             </Button>
             <Button variant="outline" className="w-full">
               <GithubIcon className="w-4 h-4 mr-2" />

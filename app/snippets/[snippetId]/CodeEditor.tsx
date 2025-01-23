@@ -9,8 +9,8 @@ import { useRef, useState } from "react";
 import { removeSnippet, updateSnippet } from "../actions";
 import { Snippet } from "@/types/custom";
 import { Button } from "@/components/ui/button";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 import { useRouter } from "next/navigation";
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {

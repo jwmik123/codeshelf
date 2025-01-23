@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const nunito = Nunito({
   subsets: ["latin"],
