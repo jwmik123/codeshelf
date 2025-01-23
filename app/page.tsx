@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { AppSidebar } from "@/components/app-sidebar";
 
 import "react-toastify/dist/ReactToastify.css";
+import PopularSnippets from "./components/PopularSnippets";
 
 export default function Dashboard() {
   const { theme, setTheme } = useTheme();
@@ -59,16 +60,15 @@ export default function Dashboard() {
               </Card>
 
               {/* Your pinned snippets */}
-              <div className="my-8">
+              {/* <div className="my-8">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-semibold">Pinned snippets</h2>
+                  <h2 className="text-2xl font-semibold">Popular snippets</h2>
                   <Button variant="outline" size="sm">
                     <PencilIcon className="w-4 h-4 mr-2" />
                     Edit pins
                   </Button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

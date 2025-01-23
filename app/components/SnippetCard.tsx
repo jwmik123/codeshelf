@@ -36,9 +36,14 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
   };
 
   return (
-    <Card onClick={() => router.push(`/snippets/${snippet.id}`)}>
-      <CardHeader>
-        <CardTitle className="text-lg">{snippet.title}</CardTitle>
+    <Card>
+      <CardHeader
+        onClick={() => router.push(`/snippets/${snippet.id}`)}
+        className="cursor-pointer group"
+      >
+        <CardTitle className="text-lg group-hover:underline">
+          {snippet.title}
+        </CardTitle>
         <CardDescription>{snippet.description}</CardDescription>
       </CardHeader>
       <CardContent>

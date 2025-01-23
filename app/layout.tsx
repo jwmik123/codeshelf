@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "Your code snippet library, powered by AI",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

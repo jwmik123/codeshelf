@@ -78,7 +78,8 @@ export async function updateSnippet(snippet: Snippet) {
       ...snippet,
       updated_at: new Date().toISOString(),
     })
-    .eq("id", snippet.id);
+    .eq("id", snippet.id)
+    .select();
   if (error) {
     throw new Error(error.message);
   }

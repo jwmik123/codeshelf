@@ -5,13 +5,14 @@ import { materialDark } from "@uiw/codemirror-theme-material";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import dynamic from "next/dynamic";
 import { EditorView, Compartment } from "@uiw/react-codemirror";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { removeSnippet, updateSnippet } from "../actions";
 import { Snippet } from "@/types/custom";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 
 import { useRouter } from "next/navigation";
+import { useCodeStore } from "@/app/stores/codeStore";
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
@@ -28,6 +29,7 @@ export function CodeEditorClient({ snippet }: CodeEditorClientProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState("");
+  const { storedCode } = useCodeStore();
   const router = useRouter();
   const extensions = [
     EditorView.lineWrapping,
@@ -40,6 +42,12 @@ export function CodeEditorClient({ snippet }: CodeEditorClientProps) {
       effects: compartmentRef.current.reconfigure(EditorView.lineWrapping),
     });
   };
+
+  useEffect(() => {
+    if (storedCode) {
+      setUpdatedCode(storedCode);
+    }
+  }, [storedCode]);
 
   const handleUpdateSnippet = async () => {
     setIsUpdating(true);
