@@ -26,6 +26,7 @@ export function CodeEditorClient({ snippet }: CodeEditorClientProps) {
   const compartmentRef = useRef(new Compartment());
   const [updatedCode, setUpdatedCode] = useState(snippet.code);
   const [isUpdating, setIsUpdating] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState("");
   const router = useRouter();
   const extensions = [
