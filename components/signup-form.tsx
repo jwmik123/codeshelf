@@ -12,21 +12,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GithubIcon } from "lucide-react";
 
-export function LoginForm({
+export function SignUpForm({
   message,
   signup,
-  login,
 }: {
   message: string;
   signup: (formData: FormData) => void;
-  login: (formData: FormData) => void;
 }) {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">Sign up</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your email and username below to sign up.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -55,8 +53,8 @@ export function LoginForm({
               <Input id="password" name="password" type="password" required />
             </div>
             {message && <p className="text-red-500">{message}</p>}
-            <Button type="submit" className="w-full" formAction={login}>
-              Login
+            <Button type="submit" className="w-full" formAction={signup}>
+              Sign up
             </Button>
             <Button variant="outline" className="w-full">
               <GithubIcon className="w-4 h-4 mr-2" />

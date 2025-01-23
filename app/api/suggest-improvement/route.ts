@@ -1,6 +1,6 @@
-// app/api/suggest-improvements/route.ts
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { TextBlock } from "@anthropic-ai/sdk/resources/messages.mjs";
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY!,
@@ -13,21 +13,30 @@ async function suggestImprovements(code: string) {
     messages: [
       {
         role: "user",
-        content: `Please suggest specific improvements for this code(if applicable), including:
-1. Performance optimizations
-2. Better practices
-3. Code organization
-4. Error handling
-5. Security considerations
+        content: `Please suggest specific improvements for this code(if applicable).
 
-Here's the code:
+                  Keep the suggestions concise and to a minimum and to the point AND DONT ADD A SUMMARY and add a code example for each suggestion.
 
+                  Use proper markdown formatting with:
+                    - Headers (#, ##)
+                    - Bold (**text**)
+                    - Lists (- or 1.)
+                    - Code blocks (\`\`\`)
+                    - Inline code (\`)
+
+                  Here's the code:
 ${code}`,
       },
     ],
   });
 
-  return message.content;
+  // Safely handle the response content
+  const content = message.content[0] as TextBlock;
+  if (!content) {
+    throw new Error("Unexpected response format from Anthropic API");
+  }
+
+  return content.text;
 }
 
 export async function POST(request: Request) {

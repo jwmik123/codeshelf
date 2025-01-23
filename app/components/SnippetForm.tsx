@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { materialDark } from "@uiw/codemirror-theme-material";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import { materialLight } from "@uiw/codemirror-theme-material";
@@ -46,6 +47,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
       }
     }
   }, [result, setLanguage]);
+
   const analyzeCode = async () => {
     try {
       setIsAnalyzing(true);
@@ -107,7 +109,21 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
       }
 
       await addSnippet(newSnippet);
-      toast.success("Snippet saved successfully!");
+      toast.success(
+        <div>
+          Successfully added snippet to Shelf
+          <Link
+            href={`/snippets/${newSnippet.id}`}
+            className="block mt-2 text-blue-500 hover:underline"
+            onClick={(e) => {
+              e.preventDefault();
+              // Your navigation logic here
+            }}
+          >
+            Go to your snippet
+          </Link>
+        </div>
+      );
       formRef.current?.reset();
       setCode("");
       setResult(null);

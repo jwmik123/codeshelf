@@ -11,6 +11,15 @@ interface SearchParams {
   sort?: string;
 }
 
+export async function removeSnippet(snippetId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("code_snippets")
+    .delete()
+    .eq("id", snippetId);
+  return { data, error };
+}
+
 // Add a snippet
 export async function addSnippet(snippet: Snippet) {
   const supabase = await createClient();
@@ -40,7 +49,45 @@ export async function addSnippet(snippet: Snippet) {
   return data;
 }
 
-// app/snippets/actions.tsx
+// Update a snippet
+export async function getSnippet(snippetId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("code_snippets")
+    .select("*")
+    .eq("id", snippetId)
+    .single();
+  return { data, error };
+}
+
+// Add a snippet
+export async function updateSnippet(snippet: Snippet) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const { data, error } = await supabase
+    .from("code_snippets")
+    .update({
+      ...snippet,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", snippet.id);
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath(`/snippets/${snippet.id}`);
+  return data;
+}
+
+// like snippet
 export async function likeSnippet(snippetId: string): Promise<Snippet | null> {
   const supabase = await createClient();
 
@@ -79,6 +126,7 @@ export async function likeSnippet(snippetId: string): Promise<Snippet | null> {
     throw error;
   }
 }
+
 // Get all snippets
 export async function getSnippets(params?: SearchParams) {
   const supabase = await createClient();

@@ -93,6 +93,11 @@ body {
   }
 }
 
+.single-code-editor .cm-editor .cm-content {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 /* CODEMIRROR */
 .cm-editor {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);

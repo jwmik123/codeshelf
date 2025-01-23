@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -23,7 +24,7 @@ interface SnippetCardProps {
 export function SnippetCard({ snippet }: SnippetCardProps) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [likes, setLikes] = useState<number>(snippet.likes || 0);
-
+  const router = useRouter();
   const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(snippet.code);
     setIsCopied(true);
@@ -35,7 +36,7 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
   };
 
   return (
-    <Card>
+    <Card onClick={() => router.push(`/snippets/${snippet.id}`)}>
       <CardHeader>
         <CardTitle className="text-lg">{snippet.title}</CardTitle>
         <CardDescription>{snippet.description}</CardDescription>
