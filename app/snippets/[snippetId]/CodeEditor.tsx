@@ -26,6 +26,7 @@ export function CodeEditorClient({ snippet }: CodeEditorClientProps) {
   const compartmentRef = useRef(new Compartment());
   const [updatedCode, setUpdatedCode] = useState(snippet.code);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
   const extensions = [
     EditorView.lineWrapping,
@@ -47,10 +48,13 @@ export function CodeEditorClient({ snippet }: CodeEditorClientProps) {
         code: updatedCode,
       });
 
+      setError("");
+
       toast.success("Snippet updated successfully");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Update error:", error);
-      toast.error(error.message || "Failed to update snippet");
+      setError("Failed to update snippet");
+      toast.error("Failed to update snippet");
     } finally {
       setIsUpdating(false);
     }
