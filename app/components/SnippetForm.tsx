@@ -97,6 +97,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
         language: language || "javascript",
         shelf: shelf || "default",
         likes: 0,
+        hasLiked: false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         user_id: null,
