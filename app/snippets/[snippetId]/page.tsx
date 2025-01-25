@@ -27,7 +27,7 @@ export default async function SnippetPage({
 
   const snippet = await getSnippet(params.snippetId);
 
-  if (!snippet.data) {
+  if (!snippet) {
     notFound();
   }
 
@@ -42,10 +42,10 @@ export default async function SnippetPage({
               <div className="flex items-center">
                 <SidebarTrigger className="-ml-1" />
                 <Separator orientation="vertical" className="mr-2 h-4" />
-                <h1 className="text-4xl font-bold">{snippet.data.title}</h1>
+                <h1 className="text-4xl font-bold">{snippet.title}</h1>
               </div>
               <p className="mt-2 text-lg text-muted-foreground">
-                {snippet.data.description}
+                {snippet.description}
               </p>
             </header>
 
@@ -55,30 +55,30 @@ export default async function SnippetPage({
               <div className="min-w-0">
                 {/* min-w-0 prevents overflow */}
                 <div className="space-y-4 pr-4">
-                  <CodeEditorClient snippet={snippet.data} />
+                  <CodeEditorClient snippet={snippet} />
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <Link
-                      href={`/snippets?language=${snippet.data.language}`}
+                      href={`/snippets?language=${snippet.language}`}
                       className="hover:underline"
                     >
-                      Language: {snippet.data.language}
+                      Language: {snippet.language}
                     </Link>
                     <span>•</span>
                     <Link
-                      href={`/snippets?shelf=${snippet.data.shelf}`}
+                      href={`/snippets?shelf=${snippet.shelf}`}
                       className="hover:underline"
                     >
-                      Shelf: {snippet.data.shelf}
+                      Shelf: {snippet.shelf}
                     </Link>
                     <span>•</span>
-                    <span>Likes: {snippet.data.likes}</span>
+                    <span>Likes: {snippet.likes}</span>
                   </div>
                 </div>
               </div>
 
               {/* Improvements Section */}
               <div className="w-full pl-4">
-                <OptimizeCodeButton snippet={snippet.data} />
+                <OptimizeCodeButton snippet={snippet} />
               </div>
             </div>
           </div>

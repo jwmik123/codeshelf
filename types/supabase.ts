@@ -14,6 +14,7 @@ export type Database = {
           code: string
           created_at: string | null
           description: string | null
+          hasLiked: boolean | null
           id: string
           language: string
           likes: number | null
@@ -26,6 +27,7 @@ export type Database = {
           code: string
           created_at?: string | null
           description?: string | null
+          hasLiked?: boolean | null
           id?: string
           language: string
           likes?: number | null
@@ -38,6 +40,7 @@ export type Database = {
           code?: string
           created_at?: string | null
           description?: string | null
+          hasLiked?: boolean | null
           id?: string
           language?: string
           likes?: number | null

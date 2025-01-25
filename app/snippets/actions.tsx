@@ -52,12 +52,33 @@ export async function addSnippet(snippet: Snippet) {
 // Update a snippet
 export async function getSnippet(snippetId: string) {
   const supabase = await createClient();
-  const { data, error } = await supabase
+
+  // Get current user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Get the snippet
+  const { data: snippet, error } = await supabase
     .from("code_snippets")
     .select("*")
     .eq("id", snippetId)
     .single();
-  return { data, error };
+
+  if (error) throw new Error(error.message);
+
+  // Get whether current user has liked
+  const { data: userLike } = await supabase
+    .from("snippet_likes")
+    .select()
+    .eq("snippet_id", snippetId)
+    .eq("user_id", user?.id || "")
+    .single();
+
+  return {
+    ...snippet,
+    hasLiked: !!userLike,
+  };
 }
 
 // Add a snippet
@@ -89,42 +110,73 @@ export async function updateSnippet(snippet: Snippet) {
 }
 
 // like snippet
-export async function likeSnippet(snippetId: string): Promise<Snippet | null> {
+export async function likeSnippet(snippetId: string) {
   const supabase = await createClient();
 
-  try {
-    const { data: currentSnippet, error: fetchError } = await supabase
-      .from("code_snippets")
-      .select("likes")
-      .eq("id", snippetId)
-      .maybeSingle();
+  // Get current user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not authenticated");
 
-    if (fetchError) {
-      throw new Error("Failed to fetch snippet");
-    }
+  // First get the current snippet
+  const { data: snippet, error: fetchError } = await supabase
+    .from("code_snippets")
+    .select("likes")
+    .eq("id", snippetId)
+    .single();
 
-    if (!currentSnippet) {
-      throw new Error("Snippet not found");
-    }
+  if (fetchError) throw new Error(fetchError.message);
+
+  // Check if user has already liked
+  const { data: existingLike } = await supabase
+    .from("snippet_likes")
+    .select()
+    .eq("snippet_id", snippetId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (existingLike) {
+    // Unlike: Remove like and decrement count
+    await supabase
+      .from("snippet_likes")
+      .delete()
+      .eq("snippet_id", snippetId)
+      .eq("user_id", user.id);
 
     const { data: updatedSnippet, error: updateError } = await supabase
       .from("code_snippets")
-      .update({
-        likes: (currentSnippet.likes || 0) + 1,
-        updated_at: new Date().toISOString(),
-      })
+      .update({ likes: (snippet?.likes || 1) - 1 })
       .eq("id", snippetId)
       .select()
-      .maybeSingle();
+      .single();
 
-    if (updateError) {
-      throw new Error("Failed to update snippet");
-    }
+    if (updateError) throw new Error(updateError.message);
 
-    return updatedSnippet;
-  } catch (error) {
-    console.error("Like snippet error:", error);
-    throw error;
+    return {
+      ...updatedSnippet,
+      hasLiked: false,
+    };
+  } else {
+    // Like: Add like and increment count
+    await supabase.from("snippet_likes").insert({
+      snippet_id: snippetId,
+      user_id: user.id,
+    });
+
+    const { data: updatedSnippet, error: updateError } = await supabase
+      .from("code_snippets")
+      .update({ likes: (snippet?.likes || 0) + 1 })
+      .eq("id", snippetId)
+      .select()
+      .single();
+
+    if (updateError) throw new Error(updateError.message);
+
+    return {
+      ...updatedSnippet,
+      hasLiked: true,
+    };
   }
 }
 
@@ -182,7 +234,24 @@ export async function getSnippets(params?: SearchParams) {
     throw new Error(error.message);
   }
 
-  return data;
+  // Get like status for each snippet
+  const snippetsWithLikes = await Promise.all(
+    data.map(async (snippet) => {
+      const { data: userLike } = await supabase
+        .from("snippet_likes")
+        .select()
+        .eq("snippet_id", snippet.id)
+        .eq("user_id", user.id)
+        .single();
+
+      return {
+        ...snippet,
+        hasLiked: !!userLike,
+      };
+    })
+  );
+
+  return snippetsWithLikes;
 }
 
 // Get all snippets for a user

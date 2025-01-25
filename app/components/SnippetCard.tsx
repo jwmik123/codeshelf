@@ -16,6 +16,7 @@ import { langs } from "@uiw/codemirror-extensions-langs";
 import { materialDark } from "@uiw/codemirror-theme-material";
 import { CopyCheck, CopyIcon, HeartIcon } from "lucide-react";
 import { Snippet } from "@/types/custom";
+import { likeSnippet } from "../snippets/actions";
 
 interface SnippetCardProps {
   snippet: Snippet;
@@ -23,7 +24,11 @@ interface SnippetCardProps {
 
 export function SnippetCard({ snippet }: SnippetCardProps) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const [likes, setLikes] = useState<number>(snippet.likes || 0);
+  const [currentLikes, setCurrentLikes] = useState(snippet.likes);
+  const [isLiking, setIsLiking] = useState(false);
+  const [likeError, setLikeError] = useState<string | null>(null);
+  const [hasUserLiked, setHasUserLiked] = useState(snippet.hasLiked);
+
   const router = useRouter();
   const handleCopy = async (): Promise<void> => {
     await navigator.clipboard.writeText(snippet.code);
@@ -31,8 +36,32 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  const handleLike = () => {
-    setLikes((prev) => prev + 1);
+  const handleLike = async () => {
+    if (isLiking) return;
+
+    try {
+      setIsLiking(true);
+      setLikeError(null);
+
+      // Optimistic update
+      setCurrentLikes((prev) => (prev ?? 0) + 1);
+
+      const updatedSnippet = await likeSnippet(snippet.id);
+
+      // Update with actual value from server
+      if (updatedSnippet) {
+        setCurrentLikes(updatedSnippet.likes);
+        setHasUserLiked(updatedSnippet.hasLiked);
+      }
+    } catch (error) {
+      // Revert optimistic update on error
+      setCurrentLikes((prev) => (prev ?? 0) - 1);
+      setHasUserLiked(false);
+      setLikeError("Failed to like snippet");
+      console.error("Like error:", error);
+    } finally {
+      setIsLiking(false);
+    }
   };
 
   return (
@@ -77,11 +106,30 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex items-center gap-2">
-        <Button onClick={handleLike} variant="ghost" size="sm">
-          <HeartIcon className="w-4 h-4" />
+        <Button
+          onClick={handleLike}
+          disabled={isLiking}
+          variant="ghost"
+          size="sm"
+          className={`
+            relative transition-all duration-200
+            ${isLiking ? "opacity-50" : "hover:bg-primary/10"}
+          `}
+        >
+          <HeartIcon
+            className={`w-4 h-4 ${isLiking ? "animate-pulse" : ""} ${
+              hasUserLiked ? "fill-red-500 stroke-red-500" : ""
+            }`}
+          />
+          {isLiking && (
+            <span className="absolute -top-1 -right-1 flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            </span>
+          )}
         </Button>
         <div className="text-sm text-muted-foreground">
-          {likes} {likes === 1 ? "like" : "likes"}
+          {currentLikes} {currentLikes === 1 ? "like" : "likes"}
         </div>
       </CardFooter>
     </Card>
