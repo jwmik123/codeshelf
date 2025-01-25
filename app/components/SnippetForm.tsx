@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { addSnippet } from "../snippets/actions";
 import { Snippet } from "@/types/custom";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
@@ -36,6 +37,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
   const { language, setLanguage } = useLanguageStore();
   const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (result) {
@@ -118,7 +120,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
             className="block mt-2 text-blue-500 hover:underline"
             onClick={(e) => {
               e.preventDefault();
-              // Your navigation logic here
+              router.push(`/snippets/${newSnippet.id}`);
             }}
           >
             Go to your snippet
@@ -136,7 +138,6 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
 
   return (
     <form ref={formRef} action={handleSubmit}>
-      {/* Hidden form fields to store the data */}
       <input
         type="hidden"
         name="title"
@@ -181,7 +182,7 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
       )}
 
       <CodeMirror
-        height="300px"
+        height="350px"
         value={code || "// Please enter your code here..."}
         onChange={(value) => setCode(value)}
         theme={theme === "dark" ? materialDark : materialLight}

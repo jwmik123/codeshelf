@@ -31,19 +31,13 @@ import {
 const data = {
   user: {
     name: "Joël Mik",
-    email: "joel@codeshelf.ai",
+    email: "joel@codeshelf.app",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
-      title: "AllSnippets",
+      title: "All My Snippets",
       url: "/snippets",
-      icon: Scissors,
-      isActive: true,
-    },
-    {
-      title: "My Snippets",
-      url: "/user-snippets",
       icon: Scissors,
       isActive: true,
       items: [
@@ -55,7 +49,7 @@ const data = {
         {
           title: "View My Snippets",
           icon: EyeIcon,
-          url: "/user-snippets",
+          url: "/snippets",
         },
       ],
     },

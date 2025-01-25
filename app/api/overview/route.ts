@@ -1,4 +1,3 @@
-// src/app/api/analyze-code/route.ts
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { TextBlock } from "@anthropic-ai/sdk/resources/messages.mjs";
