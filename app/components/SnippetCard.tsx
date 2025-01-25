@@ -26,6 +26,7 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [currentLikes, setCurrentLikes] = useState(snippet.likes);
   const [isLiking, setIsLiking] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [likeError, setLikeError] = useState<string | null>(null);
   const [hasUserLiked, setHasUserLiked] = useState(snippet.hasLiked);
 

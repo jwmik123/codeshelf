@@ -5,7 +5,6 @@ import { Loader2Icon, WandIcon } from "lucide-react";
 import { Snippet } from "@/types/custom";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { getSnippet, updateSnippet } from "../actions";
 import { toast } from "react-toastify";
 import { useCodeStore } from "@/app/stores/codeStore";
 
@@ -13,6 +12,7 @@ const OptimizeCodeButton = ({ snippet }: { snippet: Snippet }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [improvements, setImprovements] = useState<string | null>(null);
   const [isApplying, setIsApplying] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [codeWithImprovements, setCodeWithImprovements] = useState(
     snippet.code
   );

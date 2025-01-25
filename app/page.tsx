@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import SnippetForm from "./components/SnippetForm";
 import Search from "./components/Search";
 import { Button } from "@/components/ui/button";
-import { PencilIcon, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -16,7 +16,6 @@ import { Separator } from "@/components/ui/separator";
 import { AppSidebar } from "@/components/app-sidebar";
 
 import "react-toastify/dist/ReactToastify.css";
-import PopularSnippets from "./components/PopularSnippets";
 
 export default function Dashboard() {
   const { theme, setTheme } = useTheme();
