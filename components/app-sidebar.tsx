@@ -36,7 +36,7 @@ const data = {
   },
   navMain: [
     {
-      title: "All My Snippets",
+      title: "Snippets",
       url: "/snippets",
       icon: Scissors,
       isActive: true,

@@ -7,6 +7,8 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "react-toastify";
 import { useCodeStore } from "@/app/stores/codeStore";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const OptimizeCodeButton = ({ snippet }: { snippet: Snippet }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -109,8 +111,8 @@ const OptimizeCodeButton = ({ snippet }: { snippet: Snippet }) => {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col  gap-4">
+    <div className="w-full mt-10">
+      <div className="flex flex-col gap-4">
         {!improvements && (
           <Button onClick={handleOptimizeCode} variant="default" size="sm">
             <WandIcon className="w-4 h-4 mr-2" />
@@ -168,15 +170,34 @@ const OptimizeCodeButton = ({ snippet }: { snippet: Snippet }) => {
                   <ol className="list-decimal ml-6 my-2">{children}</ol>
                 ),
                 li: ({ children }) => <li className="my-1">{children}</li>,
-                code: ({ children }) => (
-                  <code className="bg-muted px-1.5 py-0.5 rounded-md font-mono text-sm">
-                    {children}
-                  </code>
-                ),
+                code: ({ className, children, ...props }: any) => {
+                  const content = String(children).replace(/\n$/, "");
+                  const isInline = !props.node?.position?.start.line;
+                  const isShort = content.split(/\s+/).length <= 2;
+
+                  if (isInline || isShort) {
+                    return (
+                      <code className="bg-muted px-1.5 py-0.5 rounded-md font-mono text-sm">
+                        {content}
+                      </code>
+                    );
+                  }
+
+                  return (
+                    <SyntaxHighlighter
+                      style={oneDark}
+                      language={snippet.language}
+                      PreTag="div"
+                      className="text-sm"
+                    >
+                      {content}
+                    </SyntaxHighlighter>
+                  );
+                },
                 pre: ({ children }) => (
-                  <pre className="bg-muted p-4 rounded-lg my-4 overflow-x-auto">
+                  <div className=" bg-muted p-4 rounded-lg my-4 overflow-x-auto">
                     {children}
-                  </pre>
+                  </div>
                 ),
                 strong: ({ children }) => (
                   <strong className="font-bold">{children}</strong>

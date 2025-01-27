@@ -57,11 +57,6 @@ export async function POST(request: Request) {
     // Parse the response
     const lines = content.text.split("\n").filter((line) => line.trim() !== "");
 
-    // Ensure we have exactly 3 lines
-    if (lines.length < 3) {
-      throw new Error("Unexpected response format: insufficient lines");
-    }
-
     const result = {
       title: lines[0].trim(),
       language: lines[1].trim(),

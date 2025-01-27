@@ -33,7 +33,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <div className="relative w-72 ">
+            <div className="relative w-72">
               <Search />
             </div>
           </div>
@@ -57,17 +57,6 @@ export default function Dashboard() {
               <Card className="flex flex-col gap-4 p-4">
                 <SnippetForm theme={(theme as "light" | "dark") || "dark"} />
               </Card>
-
-              {/* Your pinned snippets */}
-              {/* <div className="my-8">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-semibold">Popular snippets</h2>
-                  <Button variant="outline" size="sm">
-                    <PencilIcon className="w-4 h-4 mr-2" />
-                    Edit pins
-                  </Button>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
