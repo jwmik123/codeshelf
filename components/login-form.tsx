@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GithubIcon } from "lucide-react";
+import { signInWithGithub } from "@/app/login/actions";
 
 export function LoginForm({
   message,
@@ -39,7 +40,6 @@ export function LoginForm({
                 name="email"
                 type="email"
                 placeholder="john@doe.com"
-                required
               />
             </div>
             <div className="grid gap-2">
@@ -52,7 +52,7 @@ export function LoginForm({
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" name="password" type="password" required />
+              <Input id="password" name="password" type="password" />
             </div>
             {message && <p className="text-red-500">{message}</p>}
             <Button type="submit" className="w-full" formAction={login}>
@@ -61,7 +61,11 @@ export function LoginForm({
             <Button type="submit" className="w-full" formAction={signup}>
               Signup
             </Button>
-            <Button variant="outline" className="w-full">
+            <Button
+              variant="outline"
+              className="w-full"
+              formAction={signInWithGithub}
+            >
               <GithubIcon className="w-4 h-4 mr-2" />
               Login with Github
             </Button>
