@@ -170,7 +170,7 @@ const OptimizeCodeButton = ({ snippet }: { snippet: Snippet }) => {
                   <ol className="list-decimal ml-6 my-2">{children}</ol>
                 ),
                 li: ({ children }) => <li className="my-1">{children}</li>,
-                code: ({ children, ...props }: any) => {
+                code: ({ children, ...props }) => {
                   const content = String(children).replace(/\n$/, "");
                   const isInline = !props.node?.position?.start.line;
                   const isShort = content.split(/\s+/).length <= 2;
