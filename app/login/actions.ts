@@ -17,6 +17,10 @@ export async function signInWithGithub() {
   if (data.url) {
     redirect(data.url); // use the redirect API for your server framework
   }
+
+  if (error) {
+    throw new Error("Failed to sign in with GitHub");
+  }
 }
 
 export async function login(formData: FormData) {
