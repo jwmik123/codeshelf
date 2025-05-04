@@ -1,6 +1,4 @@
 import { Separator } from "@/components/ui/separator";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import { SnippetList } from "../components/SnippetList";
 import { getSnippets } from "./actions";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -15,16 +13,11 @@ export default async function Snippets({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   // Temporarily disabled authentication check
-  // if (!user) {
-  //   redirect("/login");
-  // }
+  // const supabase = await createClient();
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
 
   const snippets = await getSnippets({
     language: searchParams.language as string,

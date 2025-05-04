@@ -54,11 +54,6 @@ export async function addSnippet(snippet: Snippet) {
 export async function getSnippet(snippetId: string) {
   const supabase = await createClient();
 
-  // Get current user
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   // Get the snippet
   const { data: snippet, error } = await supabase
     .from("code_snippets")
@@ -73,7 +68,7 @@ export async function getSnippet(snippetId: string) {
     .from("snippet_likes")
     .select()
     .eq("snippet_id", snippetId)
-    .eq("user_id", user?.id || "")
+    .eq("user_id", "anonymous")
     .single();
 
   return {
@@ -86,11 +81,10 @@ export async function getSnippet(snippetId: string) {
 export async function updateSnippet(snippet: Snippet) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   // Temporarily disabled authentication check
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
   // if (!user) {
   //   throw new Error("User not found");
   // }
@@ -224,14 +218,6 @@ export async function getSnippets(params?: SearchParams) {
     }
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
   const { data, error } = await query;
 
   if (error) {
@@ -245,7 +231,7 @@ export async function getSnippets(params?: SearchParams) {
         .from("snippet_likes")
         .select()
         .eq("snippet_id", snippet.id)
-        .eq("user_id", user.id)
+        .eq("user_id", "anonymous")
         .single();
 
       return {
@@ -261,13 +247,6 @@ export async function getSnippets(params?: SearchParams) {
 // Get all snippets for a user
 export async function getUserSnippets(userId: string) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error("User not found");
-  }
 
   const { data, error } = await supabase
     .from("code_snippets")

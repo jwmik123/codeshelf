@@ -1,5 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
@@ -15,16 +14,11 @@ export default async function SnippetPage({
 }: {
   params: { snippetId: string };
 }) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   // Temporarily disabled authentication check
-  // if (!user) {
-  //   redirect("/login");
-  // }
+  // const supabase = await createClient();
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
 
   const snippet = await getSnippet(params.snippetId);
 

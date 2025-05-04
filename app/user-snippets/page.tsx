@@ -1,6 +1,5 @@
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import { SnippetList } from "../components/SnippetList";
 import { getUserSnippets } from "../snippets/actions";
 import { SidebarProvider } from "@/components/ui/sidebar";
