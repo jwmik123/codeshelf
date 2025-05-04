@@ -10,7 +10,7 @@ export async function signInWithGithub() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: "https://codeshelf.app/auth/callback",
+      redirectTo: "http://localhost:3000/auth/callback",
     },
   });
 

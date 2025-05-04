@@ -21,9 +21,10 @@ export default async function Snippets({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
+  // Temporarily disabled authentication check
+  // if (!user) {
+  //   redirect("/login");
+  // }
 
   const snippets = await getSnippets({
     language: searchParams.language as string,

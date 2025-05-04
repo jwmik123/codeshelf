@@ -219,11 +219,6 @@ function SnippetForm({ theme }: { theme: "dark" | "light" }) {
             {result?.category && result.category !== "default" && (
               <SelectItem value={result.category}>{result.category}</SelectItem>
             )}
-            <SelectItem value="Algorithms">Algorithms</SelectItem>
-            <SelectItem value="Data Structures">Data Structures</SelectItem>
-            <SelectItem value="Web Development">Web Development</SelectItem>
-            <SelectItem value="Machine Learning">Machine Learning</SelectItem>
-            <SelectItem value="AI">AI</SelectItem>
           </SelectContent>
         </Select>
 

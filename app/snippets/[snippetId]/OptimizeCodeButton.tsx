@@ -183,6 +183,11 @@ const OptimizeCodeButton = ({ snippet }: { snippet: Snippet }) => {
                     );
                   }
 
+                  const cleanContent = content.replace(
+                    /^```[\w-]*\n|```$/g,
+                    ""
+                  );
+
                   return (
                     <SyntaxHighlighter
                       style={oneDark}
@@ -190,7 +195,7 @@ const OptimizeCodeButton = ({ snippet }: { snippet: Snippet }) => {
                       PreTag="div"
                       className="text-sm"
                     >
-                      {content}
+                      {cleanContent}
                     </SyntaxHighlighter>
                   );
                 },

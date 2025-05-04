@@ -16,11 +16,12 @@ export default async function UserSnippets() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
+  // Temporarily disabled authentication check
+  // if (!user) {
+  //   redirect("/login");
+  // }
 
-  const snippets = await getUserSnippets(user.id);
+  const snippets = await getUserSnippets(user?.id || "anonymous");
 
   return (
     <SidebarProvider>

@@ -18,7 +18,7 @@ async function applyImprovements(code: string, improvements: string) {
                   ${improvements}
 
                   ONLY return the improved code without any other text or explanation 
-                  also dont add the language tags like \`\`\`javascript or \`\`\`python or \`\`\`any language or "Here is the improved code:".
+                  also dont add the language tags like \`\`\`javascript or \`\`\`python or \`\`\`any language an the start of the code or "Here is the improved code:".
 
                   Just the output the code, nothing else.
 

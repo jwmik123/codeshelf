@@ -27,9 +27,10 @@ export async function addSnippet(snippet: Snippet) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    throw new Error("User not found");
-  }
+  // Temporarily disabled authentication check
+  // if (!user) {
+  //   throw new Error("User not found");
+  // }
 
   const { data, error } = await supabase.from("code_snippets").insert({
     title: snippet.title,
@@ -37,7 +38,7 @@ export async function addSnippet(snippet: Snippet) {
     language: snippet.language,
     shelf: snippet.shelf,
     code: snippet.code,
-    user_id: user.id,
+    user_id: user?.id || "anonymous",
   });
 
   if (error) {
@@ -89,9 +90,10 @@ export async function updateSnippet(snippet: Snippet) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    throw new Error("User not found");
-  }
+  // Temporarily disabled authentication check
+  // if (!user) {
+  //   throw new Error("User not found");
+  // }
 
   const { data, error } = await supabase
     .from("code_snippets")
@@ -117,7 +119,9 @@ export async function likeSnippet(snippetId: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) throw new Error("Not authenticated");
+
+  // Temporarily disabled authentication check
+  // if (!user) throw new Error("Not authenticated");
 
   // First get the current snippet
   const { data: snippet, error: fetchError } = await supabase
@@ -133,7 +137,7 @@ export async function likeSnippet(snippetId: string) {
     .from("snippet_likes")
     .select()
     .eq("snippet_id", snippetId)
-    .eq("user_id", user.id)
+    .eq("user_id", user?.id || "anonymous")
     .single();
 
   if (existingLike) {
@@ -142,7 +146,7 @@ export async function likeSnippet(snippetId: string) {
       .from("snippet_likes")
       .delete()
       .eq("snippet_id", snippetId)
-      .eq("user_id", user.id);
+      .eq("user_id", user?.id || "anonymous");
 
     const { data: updatedSnippet, error: updateError } = await supabase
       .from("code_snippets")
@@ -161,7 +165,7 @@ export async function likeSnippet(snippetId: string) {
     // Like: Add like and increment count
     await supabase.from("snippet_likes").insert({
       snippet_id: snippetId,
-      user_id: user.id,
+      user_id: user?.id || "anonymous",
     });
 
     const { data: updatedSnippet, error: updateError } = await supabase
